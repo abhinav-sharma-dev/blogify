@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        EC2_HOST = '13.126.242.111'
+        EC2_HOST = '15.207.106.46'
         PROJECT_DIR = '/home/ubuntu/blogify'
     }
 
@@ -16,7 +16,9 @@ pipeline {
                             cd ${PROJECT_DIR} &&
                             git pull origin main &&
                             npm install &&
-                            pm2 restart blogify || pm2 start app.js --name blogify
+                            pm2 describe blogify > /dev/null 2>&1 &&
+                            pm2 restart blogify ||
+                            pm2 start app.js --name blogify --watch -- --port 8000
                         '
                     """
                 }
