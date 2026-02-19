@@ -11,12 +11,12 @@ pipeline {
         stage('Deploy Backend to EC2') {
             steps {
                 sh """
-                ssh -o StrictHostKeyChecking=no ${EC2_HOST} << 'EOF'
-                    cd ${PROJECT_DIR}
-                    git pull origin main
-                    npm install
+                ssh -o StrictHostKeyChecking=no ${EC2_HOST} '
+                    cd ${PROJECT_DIR} &&
+                    git pull origin main &&
+                    npm install &&
                     pm2 restart blogify || pm2 start app.js --name blogify
-                EOF
+                '
                 """
             }
         }
